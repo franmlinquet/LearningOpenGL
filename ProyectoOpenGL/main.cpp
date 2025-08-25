@@ -1,5 +1,8 @@
 #include "libs.h"
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow* window);
+
 int main() {
 
 	/* GLFW Init */
@@ -18,6 +21,7 @@ int main() {
 	}
 
 	glfwMakeContextCurrent(window);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	/* GLAD Init */
 	
@@ -28,6 +32,8 @@ int main() {
 
 	/* Render Loop */
 	while (!glfwWindowShouldClose(window)) {
+		/* Input */
+		processInput(window);
 
 		/* Render */
 		glClearColor(0.7f, 0.2f, 0.2f, 0.7f);
@@ -40,5 +46,17 @@ int main() {
 		glfwPollEvents();
 	}
 
+	glfwTerminate();
+
 	return 0;
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+	glViewport(0, 0, width, height);
+}
+
+void processInput(GLFWwindow* window) {
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		glfwSetWindowShouldClose(window, GL_TRUE);
+	}
 }
