@@ -1,0 +1,38 @@
+# Archivos y carpetas de Visual Studio
+.vs/
+*.vcxproj.user
+*.suo
+*.user
+*.ncb
+*.aps
+*.cache
+*.db
+*.opendb
+*.VC.db
+*.vscode/
+
+# Archivos de construcción
+Debug/
+Release/
+x64/
+x86/
+ipch/
+*.obj
+*.exe
+*.ilk
+*.log
+*.pdb
+*.idb
+*.tlog/
+*.sdf
+*.opensdf
+
+# Archivos temporales
+*.tmp
+*.bak
+*.swp
+*~
+
+# Archivos de sistema
+Thumbs.db
+Desktop.ini
