@@ -109,16 +109,28 @@ int main() {
 
 
 	/* Vertex data[] */
-	float vertices[] = {
+	/*float vertices[] = {
 		-0.5f, -0.5f, 0.0f, // Bottom left
 		0.5f, -0.5f, 0.0f,  // Bottom right
 		0.0f, 0.5f, 0.0f    // Top mid
+	};*/
+
+	float vertices[] = {
+		 0.5f,  0.5f, 0.0f,  // top right
+		 0.5f, -0.5f, 0.0f,  // bottom right
+		-0.5f, -0.5f, 0.0f,  // bottom left
+		-0.5f,  0.5f, 0.0f   // top left 
+	};
+	unsigned int indices[] = {  // note that we start from 0!
+		0, 1, 3,   // first triangle
+		1, 2, 3    // second triangle
 	};
 
 	/* Generate Vertex Buffer & Array */
-	unsigned int VBO, VAO;
+	unsigned int VBO, VAO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
 
 	/* Bind VAO First, Then bind & set buffer(s), and then configure attributes */
 	/* First generate/configure all the VAOs */
@@ -128,6 +140,11 @@ int main() {
 	/* Bind Vertex Buffer */
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); 
+
+
+	/* Bind Element Buffer */
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 
 	/* Linking Vertex Attributes */
@@ -151,7 +168,8 @@ int main() {
 		/* Drawing Triangle */
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		//glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		/* Swap Buffer */
 		glfwSwapBuffers(window);
