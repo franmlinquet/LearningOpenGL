@@ -3,6 +3,8 @@
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 
+const GLint WIDTH = 1600, HEIGHT = 1200;
+
 /* Vertex Shader GLSL */
 const char *vertexShaderSource = "#version 330 core\n"
 	"layout (location = 0) in vec3 aPos;\n"
@@ -30,7 +32,7 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	/* Create Window & Context */
-	GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL v3.3 Project", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "OpenGL v3.3 Project", NULL, NULL);
 	if (!window) {
 		std::cout << "Failed to create GLFW window" << std::endl;
 		return -1;
