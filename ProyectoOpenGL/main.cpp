@@ -6,25 +6,6 @@ void processInput(GLFWwindow* window);
 
 const GLint WIDTH = 1600, HEIGHT = 1200;
 
-/* Vertex Shader GLSL */
-const char *vertexShaderSource = "#version 330 core\n"
-	"layout (location = 0) in vec3 aPos;\n"
-	"layout (location = 1) in vec3 aColor;\n"
-	"out vec3 ourColor;"
-	"void main()\n"
-	"{\n"
-	"	gl_Position = vec4(aPos, 1.0);\n"
-	"	ourColor = aColor;\n"
-	"}\0";
-
-/* Fragment Shader GLSL */
-const char* fragmentShaderSource = "#version 330 core\n"
-	"out vec4 FragColor;\n"
-	"in vec3 ourColor;"
-	"void main()\n"
-	"{\n"
-	"	FragColor = vec4(ourColor, 1.0f);\n"
-	"}\n\0";
 
 int main() {
 
@@ -51,44 +32,6 @@ int main() {
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
-	}
-
-
-	/* Vertex Shader */
-	/* Build & Compile */
-	unsigned int vertexShader; // Shader Object
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-	/* Attach ShaderSource to Shader Object & Compile the Shader */
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
-
-	/* Check for compile error */
-	int success;
-	char infoLog[512];
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-
-	if (!success) {
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-
-
-	/* Fragment Shader */
-	/* Build & Compile */
-	unsigned int fragmentShader;
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-	/* Attach FragmentSource to a FragmentShader */
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-
-	/* Check for Compile error */
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-
-	if (!success) {
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
 	}
 
 
