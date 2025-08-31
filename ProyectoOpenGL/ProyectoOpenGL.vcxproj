@@ -131,8 +131,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libs.h" />
+    <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="fragmentShaderSource.glsl" />
     <None Include="vertexShaderSource.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
