@@ -94,6 +94,7 @@ int main() {
 	/* Textures */
 	GLuint texture1, texture2;
 	int width, height, nrChannels;
+		/* Texture 1 */
 	{
 		/* Gen & Bind */
 		glGenTextures(1, &texture1);
@@ -118,18 +119,17 @@ int main() {
 
 		stbi_image_free(data);
 	}
+		/* Texture 2 */
 	{
-		/* Gen & Bind */
 		glGenTextures(1, &texture2);
 		glBindTexture(GL_TEXTURE_2D, texture2);
-		/* Wrapper */
+		
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		/* Filter */
+		
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		/* Load Image, Create Texture, Generate Mipmap */
 		unsigned char* data = stbi_load("assets/textures/awesomeface.png", &width, &height, &nrChannels, 0);
 
 		if (data) {
