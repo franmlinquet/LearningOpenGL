@@ -3,7 +3,7 @@
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow* window);
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
 const GLint WIDTH = 1600, HEIGHT = 1200;
 
@@ -27,6 +27,7 @@ int main() {
 
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetKeyCallback(window, key_callback);
 
 	/* GLAD Init */
 
@@ -143,9 +144,7 @@ int main() {
 
 	/* Render Loop */
 	while (!glfwWindowShouldClose(window)) {
-		/* Input */
-		processInput(window);
-
+		
 		/* Render */
 		glClearColor(0.7f, 0.7f, 0.8f, 0.5f);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -183,8 +182,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
 }
 
-void processInput(GLFWwindow* window) {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode) {
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	}
 }
