@@ -60,38 +60,20 @@ public:
 		vertex = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(vertex, 1, &vShaderCode, NULL);
 		glCompileShader(vertex);
-
-		glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
-
-		if (!success) {
-			glGetShaderInfoLog(vertex, 512, NULL, infoLog);
-			std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-		}
+		checkCompileErrors(vertex, "VERTEX");
 
 
 		fragment = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragment, 1, &fShaderCode, NULL);
 		glCompileShader(fragment);
-
-		glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
-
-		if (!success) {
-			glGetShaderInfoLog(fragment, 512, NULL, infoLog);
-			std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-		}
+		checkCompileErrors(fragment, "FRAGMENT");
 
 
 		ID = glCreateProgram();
 		glAttachShader(ID, vertex);
 		glAttachShader(ID, fragment);
 		glLinkProgram(ID);
-
-		glGetProgramiv(ID, GL_LINK_STATUS, &success);
-
-		if (!success) {
-			glGetProgramInfoLog(ID, 512, NULL, infoLog);
-			std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-		}
+		checkCompileErrors(ID, "PROGRAM");
 
 
 		glDeleteShader(vertex);
@@ -122,6 +104,30 @@ public:
 		glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 	}
 
+	private:
+		void checkCompileErrors(GLuint shader, std::string type)
+		{ 
+			GLint success;
+			GLchar infoLog[412];
+			if (type != "PROGRAM")
+			{
+				glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+				if (!success)
+				{
+					glGetShaderInfoLog(shader, 512, NULL, infoLog);
+					std::cout << "ERROR::SHADER_COMPILATION_ERROR of Type: " << type << "\n" << infoLog << std::endl;
+				}
+			}
+			else
+			{
+				glGetProgramiv(shader, GL_LINK_STATUS, &success);
+				if (!success)
+				{
+					glGetProgramInfoLog(shader, 512, NULL, infoLog);
+					std::cout << "ERROR::PROGRAM_LINKING_ERROR of Type: " << type << "\n" << infoLog << std::endl;
+				}
+			}
+		}
 };
 
 
