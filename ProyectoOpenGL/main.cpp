@@ -140,7 +140,7 @@ int main() {
 	}
 
 	myShader.use();
-	glUniform1i(glGetUniformLocation(myShader.ID, "texture1"), 0);
+	myShader.setInt("texture1", 0);
 	myShader.setInt("texture2", 1);
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
