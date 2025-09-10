@@ -87,7 +87,6 @@ public:
 		glUseProgram(ID);
 	}
 
-
 	// Utility (uniform functions)
 	void setBool(const std::string &name, bool value) const
 	{ 
