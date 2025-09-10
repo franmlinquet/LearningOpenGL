@@ -2,6 +2,7 @@
 #define SHADER_H
 
 #include <glad/glad.h>
+#include <glm/glm.hpp>
 
 #include <string>
 #include <fstream>
@@ -82,7 +83,7 @@ public:
 
 
 	// Use
-	void use()
+	void use() const
 	{
 		glUseProgram(ID);
 	}
@@ -134,6 +135,7 @@ public:
 		glUniform4f(glGetUniformLocation(ID, name.c_str()), x, y, z, w);
 	}
 
+	// Matrices
 	void setMat2(const std::string& name, const glm::mat2& mat) const
 	{
 		glUniformMatrix2fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
@@ -153,7 +155,7 @@ public:
 		void checkCompileErrors(GLuint shader, std::string type)
 		{ 
 			GLint success;
-			GLchar infoLog[412];
+			GLchar infoLog[1024];
 			if (type != "PROGRAM")
 			{
 				glGetShaderiv(shader, GL_COMPILE_STATUS, &success);

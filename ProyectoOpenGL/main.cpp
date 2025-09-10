@@ -8,7 +8,7 @@
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
-const GLint WIDTH = 1600, HEIGHT = 1200;
+const GLuint SCR_WIDTH = 1600, SCR_HEIGHT = 1200;
 
 
 int main() {
@@ -20,9 +20,10 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
 	/* Create Window & Context */
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "OpenGL v3.3 Project", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "OpenGL v3.3 Project", NULL, NULL);
 	if (!window) {
 		std::cout << "Failed to create GLFW window" << std::endl;
 		return -1;
@@ -173,7 +174,8 @@ int main() {
 
 		transform = glm::mat4(1.0f);
 		transform = glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f));
-		transform = glm::scale(transform, glm::vec3(0.5f, 0.5f, 0.5f));
+		float scaleAmount = static_cast<float>(sin(glfwGetTime()));
+		transform = glm::scale(transform, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
