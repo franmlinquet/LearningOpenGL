@@ -4,11 +4,19 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Shader.h"
 
-
+const GLuint SCR_WIDTH = 1600, SCR_HEIGHT = 1200;
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
+void userInput(GLFWwindow* window);
 
-const GLuint SCR_WIDTH = 1600, SCR_HEIGHT = 1200;
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+
+
 
 
 int main() {
@@ -40,7 +48,7 @@ int main() {
 		return -1;
 	}
 
-
+	glEnable(GL_DEPTH_TEST);
 	Shader myShader("vertexShaderSource.glsl", "fragmentShaderSource.glsl");
 
 
@@ -150,10 +158,10 @@ int main() {
 
 	/* Render Loop */
 	while (!glfwWindowShouldClose(window)) {
-		
+		userInput(window);
 		/* Render */
 		glClearColor(0.7f, 0.7f, 0.8f, 0.5f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture1);
@@ -198,4 +206,18 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	}
+}
+
+void userInput(GLFWwindow* window)
+{
+	float cameraSpeed = 2.5f * deltaTime;
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		cameraPos += cameraSpeed * cameraFront;
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		cameraPos -= cameraSpeed * cameraFront;
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp) * cameraSpeed);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp) * cameraSpeed);
 }
