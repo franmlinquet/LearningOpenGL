@@ -16,9 +16,6 @@ glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-
-
-
 int main() {
 
 	/* GLFW Init */
@@ -109,10 +106,10 @@ int main() {
 	};
 
 	/* Generate Vertex Buffer & Array */
-	unsigned int VBO, VAO, EBO;
+	unsigned int VBO, VAO; // , EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
+	//glGenBuffers(1, &EBO);
 
 	/* Bind VAO First, Then bind & set buffer(s), and then configure attributes */
 	/* First generate/configure all the VAOs */
@@ -244,12 +241,11 @@ int main() {
 
 		/* Poll Events*/
 		glfwPollEvents();
-		std::cout << currentFrame << " FPS" << std::endl;
 	}
 
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
+	//glDeleteBuffers(1, &EBO);
 	
 
 	glfwTerminate();
@@ -269,7 +265,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void userInput(GLFWwindow* window)
 {
-	float cameraSpeed = 2.5f * deltaTime;
+	float cameraSpeed = static_cast<float>(1.0f * deltaTime);
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		cameraPos += cameraSpeed * cameraFront;
