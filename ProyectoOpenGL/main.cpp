@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Camera.h"
 #include "Shader.h"
 
 const GLuint SCR_WIDTH = 1600, SCR_HEIGHT = 1200;
@@ -9,9 +10,10 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void userInput(GLFWwindow* window);
 
-glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f, 3.0f);
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+float lastX = SCR_WIDTH / 2.0f;
+float lastY = SCR_HEIGHT / 2.0f;
+bool firstMouse = true;
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
@@ -225,8 +227,7 @@ int main() {
 	myShader.setInt("texture2", 1);
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-	myShader.setMat4("projection", projection);
+	
 
 	/* Render Loop */
 	while (!glfwWindowShouldClose(window)) {
@@ -246,8 +247,9 @@ int main() {
 		/* Drawing */
 		myShader.use();
 		
-		glm::mat4 view = glm::mat4(1.0f);
-		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		myShader.setMat4("projection", projection);
+		glm::mat4 view = camera.GetViewMatrix();
 		myShader.setMat4("view", view);
 
 		glBindVertexArray(VAO);
@@ -292,14 +294,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void userInput(GLFWwindow* window)
 {
-	float cameraSpeed = static_cast<float>(2.5f * deltaTime);
+	//float cameraSpeed = static_cast<float>(2.5f * deltaTime);
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		cameraPos += cameraSpeed * cameraFront;
+		camera.ProcessKeyboard(FORWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		cameraPos -= cameraSpeed * cameraFront;
+		camera.ProcessKeyboard(BACKWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		camera.ProcessKeyboard(RIGHT, deltaTime);
+	
 }
