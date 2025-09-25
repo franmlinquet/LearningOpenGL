@@ -262,13 +262,21 @@ int main() {
 		glBindTexture(GL_TEXTURE_2D, texture2);
 		*/
 		/* Drawing */
+		/*
 		myShader.use();
 		
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		myShader.setMat4("projection", projection);
 		glm::mat4 view = camera.GetViewMatrix();
 		myShader.setMat4("view", view);
+		*/
 
+		cubeShader.use();
+		cubeShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+		cubeShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		glm::mat4 view		 = camera.GetViewMatrix();
 		
 
 
