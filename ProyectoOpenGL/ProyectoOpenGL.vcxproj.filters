@@ -43,5 +43,17 @@
     <None Include="fragmentShaderSource.glsl">
       <Filter>Archivos de recursos</Filter>
     </None>
+    <None Include="color.vs">
+      <Filter>Archivos de recursos</Filter>
+    </None>
+    <None Include="color.fs">
+      <Filter>Archivos de recursos</Filter>
+    </None>
+    <None Include="light_cube.fs">
+      <Filter>Archivos de recursos</Filter>
+    </None>
+    <None Include="light_cube.vs">
+      <Filter>Archivos de recursos</Filter>
+    </None>
   </ItemGroup>
 </Project>

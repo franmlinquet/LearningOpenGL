@@ -136,7 +136,11 @@
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="color.fs" />
+    <None Include="color.vs" />
     <None Include="fragmentShaderSource.glsl" />
+    <None Include="light_cube.fs" />
+    <None Include="light_cube.vs" />
     <None Include="vertexShaderSource.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

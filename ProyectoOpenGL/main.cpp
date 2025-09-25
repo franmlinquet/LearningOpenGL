@@ -20,6 +20,8 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+
 int main() {
 
 	/* GLFW Init */
@@ -237,10 +239,11 @@ int main() {
 		stbi_image_free(data);
 	}
 
+	/*
 	myShader.use();
 	myShader.setInt("texture1", 0);
 	myShader.setInt("texture2", 1);
-
+	*/
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	
 
@@ -252,7 +255,8 @@ int main() {
 
 		userInput(window);
 		/* Render */
-		glClearColor(0.7f, 0.7f, 0.8f, 0.5f);
+		//glClearColor(0.7f, 0.7f, 0.8f, 0.5f);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		/*
@@ -274,9 +278,29 @@ int main() {
 		cubeShader.use();
 		cubeShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
 		cubeShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+		cubeShader.setVec3("lightPos", lightPos);
 
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view		 = camera.GetViewMatrix();
+		cubeShader.setMat4("projection", projection);
+		cubeShader.setMat4("view", view);
+
+		glm::mat4 model = glm::mat4(1.0f);
+		cubeShader.setMat4("model", model);
+
+		glBindVertexArray(cubeVAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		lightShader.use();
+		lightShader.setMat4("projection", projection);
+		lightShader.setMat4("view", view);
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, lightPos);
+		model = glm::scale(model, glm::vec3(0.2f));
+		lightShader.setMat4("model", model);
+
+		glBindVertexArray(lightVAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 		
 
 
