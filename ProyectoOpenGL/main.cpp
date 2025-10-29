@@ -275,6 +275,8 @@ int main() {
 		myShader.setMat4("view", view);
 		*/
 
+		
+
 		cubeShader.use();
 		cubeShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
 		cubeShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
@@ -286,8 +288,22 @@ int main() {
 		cubeShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
 		cubeShader.setFloat("material.shininess", 32.0f);
 
-		cubeShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
-		cubeShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
+
+		// Test
+		glm::vec3 lightColor;
+		lightColor.x = static_cast<float>(sin(glfwGetTime() * 2.0f));
+		lightColor.y = static_cast<float>(sin(glfwGetTime() * 0.7f));
+		lightColor.z = static_cast<float>(sin(glfwGetTime() * 1.3f));
+
+		glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
+		glm::vec3 ambientColor = lightColor * glm::vec3(0.2f);
+
+		cubeShader.setVec3("light.ambient", ambientColor);
+		cubeShader.setVec3("light.diffuse", diffuseColor);
+		// End Test
+
+		//cubeShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
+		//cubeShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
 		cubeShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -302,6 +318,7 @@ int main() {
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		lightShader.use();
+		lightShader.setVec3("lightColor", diffuseColor);
 		lightShader.setMat4("projection", projection);
 		lightShader.setMat4("view", view);
 		model = glm::mat4(1.0f);
